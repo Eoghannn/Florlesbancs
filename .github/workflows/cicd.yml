@@ -10,21 +10,8 @@ jobs:
       my_secret: ${{secrets.commit_secret}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - run: git clone https://github.com/flutter/flutter.git -b stable
-      - run: flutter/bin/flutter config --enable-web
-      - run: flutter/bin/flutter pub get
-      - run: flutter/bin/flutter build web --release
-      - run: |
-          cd build/web
-          git init
-          # type configurations: your user.email and user.name followed lines 
-          git config --global user.email pierre.zachary@etu.univ-orleans.fr 
-          git config --global user.name Pierre-ZACHARY
-          git status
-          # change this remote url for examle your remote url is https://github.com/onatcipli/flutter_web.git then the following:
-          git remote add origin https://${{secrets.commit_secret}}@github.com/Eoghannn/florlesbancs.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "update"
-          git push origin gh-pages -f
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /florlesbancs/
